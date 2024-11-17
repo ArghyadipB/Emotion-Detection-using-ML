@@ -1,3 +1,12 @@
 from src.ML_emotion_detection import logger
+from src.ML_emotion_detection.pipeline.Stage_01_data_ingestion import DataIngestionTrainingPipeline
 
-logger.info('Testing logging if it works')
+STAGE_NAME = "Data Ingestion stage"
+try:
+   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
+   data_ingestion = DataIngestionTrainingPipeline()
+   data_ingestion.main()
+   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\n")
+except Exception as e:
+        logger.exception(e)
+        raise e
