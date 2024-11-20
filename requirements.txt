@@ -4,3 +4,7 @@ pyYAML
 joblib
 pandas
 pyarrow
+scikit-learn
+nltk
+tqdm
+numpy
