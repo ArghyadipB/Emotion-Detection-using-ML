@@ -4,7 +4,8 @@ from src.ML_emotion_detection.utils.common import read_yaml, create_directories
 from src.ML_emotion_detection import logger
 from src.ML_emotion_detection.entity.config_entity import (DataIngestionConfig,
                                                            DataValidationConfig,
-                                                           DataTransformationConfig)
+                                                           DataTransformationConfig,
+                                                           ModelTrainerConfig)
 
 
 class ConfigurationManager:
@@ -71,3 +72,33 @@ class ConfigurationManager:
         )
 
         return data_transformation_config
+    
+    def get_model_trainer_config(self) -> ModelTrainerConfig:
+        config = self.config.model_trainer
+        params = self.params.LogisticRegression
+        # schema =  self.schema.TARGET_COLUMN
+
+        create_directories([config.root_dir])
+        
+        model_trainer_config = ModelTrainerConfig(
+            root_dir=config.root_dir,
+            
+            train_data_path_X = config.train_data_path_X,
+            train_data_path_target = config.train_data_path_target,
+            
+            test_data_path_X = config.test_data_path_X,
+            test_data_path_target = config.test_data_path_target,
+            
+            model_name = config.model_name,
+            
+            class_weight= params.class_weight,
+            max_iter= params.max_iter,
+            penalty= params.penalty,
+            solver= params.solver,
+            n_jobs= params.n_jobs,
+            random_state= params.random_state
+            
+            # target_column = schema.name
+            
+        )
+        return model_trainer_config

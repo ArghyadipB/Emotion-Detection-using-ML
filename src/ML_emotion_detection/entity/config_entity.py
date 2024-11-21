@@ -23,3 +23,26 @@ class DataValidationConfig:
 class DataTransformationConfig:
     root_dir: Path
     data_path: Path
+    
+
+from dataclasses import dataclass
+from pathlib import Path
+
+
+@dataclass(frozen=True)
+class ModelTrainerConfig:
+    root_dir: Path
+    train_data_path_X: Path
+    train_data_path_target: Path
+    test_data_path_X: Path
+    test_data_path_target: Path
+    model_name: str
+    
+    # model
+    class_weight: str
+    max_iter: int
+    penalty: str
+    solver: str
+    n_jobs: int
+    random_state: int
+     

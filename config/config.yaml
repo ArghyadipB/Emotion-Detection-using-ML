@@ -17,3 +17,12 @@ data_validation:
 data_transformation:
   root_dir: artifacts/data_transformation
   data_path: artifacts/data_ingestion/train-00000-of-00001.parquet
+
+model_trainer:
+  root_dir: artifacts/model_trainer
+  train_data_path_X: artifacts/data_transformation/X_train.joblib
+  train_data_path_target: artifacts/data_transformation/y_train.joblib
+  
+  test_data_path_X: artifacts/data_transformation/y_test.joblib
+  test_data_path_target: artifacts/data_transformation/y_test.joblib
+  model_name: log_reg_model.joblib
