@@ -25,10 +25,6 @@ class DataTransformationConfig:
     data_path: Path
     
 
-from dataclasses import dataclass
-from pathlib import Path
-
-
 @dataclass(frozen=True)
 class ModelTrainerConfig:
     root_dir: Path
@@ -45,4 +41,13 @@ class ModelTrainerConfig:
     solver: str
     n_jobs: int
     random_state: int
+    
+@dataclass(frozen=True)
+class ModelEvaluationConfig:
+    root_dir: Path
+    test_data_path_X: Path
+    test_data_path_target: Path
+    model_path: Path
+    all_params: dict
+    metric_file_name: Path
      
