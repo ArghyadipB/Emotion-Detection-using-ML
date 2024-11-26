@@ -35,3 +35,4 @@ model_evaluation:
 
   model_path: artifacts/model_trainer/log_reg_model.joblib
   metric_file_name: artifacts/model_evaluation/metrics.json
+  cm_file_name: artifacts/model_evaluation/confusion_matrix.png

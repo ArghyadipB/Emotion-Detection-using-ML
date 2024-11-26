@@ -117,8 +117,9 @@ class ConfigurationManager:
             test_data_path_target=config.test_data_path_target,
             model_path = config.model_path,
             all_params=params,
-            metric_file_name = config.metric_file_name,
-            # target_column = schema.name
-           
+            metric_file_name= config.metric_file_name,
+            cm_file_name= config.cm_file_name,
+            mlflow_uri = "https://dagshub.com/ArghyadipB/Emotion-Detection-using-ML.mlflow",
+            # target_column = schema.name           
         )
-        return model_evaluation_config    
+        return model_evaluation_config 

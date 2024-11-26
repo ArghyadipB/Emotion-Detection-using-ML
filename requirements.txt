@@ -8,3 +8,6 @@ scikit-learn
 nltk
 tqdm
 numpy
+mlflow
+dagshub
+matplotlib

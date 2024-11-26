@@ -50,4 +50,6 @@ class ModelEvaluationConfig:
     model_path: Path
     all_params: dict
     metric_file_name: Path
+    cm_file_name: Path
+    mlflow_uri: str
      
