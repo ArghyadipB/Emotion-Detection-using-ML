@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Emotion Prediction</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+</head>
+<body>
+    <div id="container">
+        <h1>Emotion Prediction</h1>
+        <form id="prediction-form">
+            <!-- Note: Name attribute matches the backend key -->
+            <textarea name="user_input" rows="5" placeholder="Type your text here..."></textarea><br>
+            <button type="submit">Predict Emotion</button>
+        </form>
+        <p id="result"></p>
+    </div>
+    <script>
+        document.getElementById("prediction-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+
+            fetch("/predict", {
+                method: "POST",
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.prediction) {
+                    document.getElementById("result").innerText = data.prediction;
+                } else if (data.error) {
+                    document.getElementById("result").innerText = "Error: " + data.error;
+                }
+            })
+            .catch(error => {
+                document.getElementById("result").innerText = "An unexpected error occurred.";
+                console.error("Error:", error);
+            });
+        });
+    </script>
+</body>
+</html>
