@@ -43,7 +43,8 @@ class DataIngestion:
         if not os.path.exists(self.config.local_data_file):
             logger.info(f"Downloading file from {self.config.source_url}.")
             filename, headers = request.urlretrieve(
-                url=self.config.source_url, filename=self.config.local_data_file
+                url=self.config.source_url,
+                filename=self.config.local_data_file
             )
             logger.info(
                 f"{filename} downloaded successfully \

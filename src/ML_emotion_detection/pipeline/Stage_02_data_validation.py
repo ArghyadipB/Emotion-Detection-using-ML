@@ -4,8 +4,7 @@ responsible for managing the data validation process in the pipeline.
 """
 
 from src.ML_emotion_detection.config.configuration import ConfigurationManager
-from src.ML_emotion_detection.components.data_validation import DataValiadtion
-
+from src.ML_emotion_detection.components.data_validation import DataValidation
 
 STAGE_NAME = "Data Validation stage"
 
@@ -41,7 +40,7 @@ class DataValidationTrainingPipeline:
         data_validation_config = config.get_data_validation_config()
 
         # Initialize the DataValiadtion class with the retrieved config
-        data_validation = DataValiadtion(config=data_validation_config)
+        data_validation = DataValidation(config=data_validation_config)
 
         # Validate the columns in the dataset
         data_validation.validate_all_columns()

@@ -9,7 +9,7 @@ from sklearn.metrics import (
 from src.ML_emotion_detection.utils.common import load_bin, save_json
 import mlflow
 import dagshub
-from urllib.parse import urlparse
+# from urllib.parse import urlparse
 import matplotlib.pyplot as plt
 from pathlib import Path
 from src.ML_emotion_detection.config.configuration import ModelEvaluationConfig
@@ -103,7 +103,7 @@ class ModelEvaluation:
             mlflow=True
         )
         mlflow.set_registry_uri(self.config.mlflow_uri)
-        tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
+        # tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
 
         with mlflow.start_run():
             predicted_output = model.predict(test_data_X)
@@ -129,10 +129,4 @@ class ModelEvaluation:
             mlflow.log_metric("Weighted Recall", weighted_rec)
             mlflow.log_metric("Weighted F1", weighted_f1)
             mlflow.log_artifact(self.config.cm_file_name)
-
-            if tracking_url_type_store != "file":
-                mlflow.sklearn.log_model(
-                    model, "model", registered_model_name="LogisticRegression"
-                )
-            else:
-                mlflow.sklearn.log_model(model, "model")
+            mlflow.sklearn.log_model(model, "model_lr")

@@ -10,8 +10,6 @@ from pathlib import Path
 from typing import Any, Union
 
 
-
-
 @ensure_annotations
 def read_yaml(path_to_yaml: Path) -> ConfigBox:
     """reads yaml file and returns
@@ -35,7 +33,6 @@ def read_yaml(path_to_yaml: Path) -> ConfigBox:
         raise ValueError("yaml file is empty")
     except Exception as e:
         raise e
-    
 
 
 @ensure_annotations
@@ -44,7 +41,8 @@ def create_directories(path_to_directories: list, verbose=True):
 
     Args:
         path_to_directories (list): list of path of directories
-        ignore_log (bool, optional): ignore if multiple dirs is to be created. Defaults to False.
+        ignore_log (bool, optional): ignore if multiple dirs is to be created.
+        Defaults to False.
     """
     for path in path_to_directories:
         os.makedirs(path, exist_ok=True)
@@ -64,8 +62,6 @@ def save_json(path: Path, data: dict):
         json.dump(data, f, indent=4)
 
     logger.info(f"json file saved at: {path}")
-
-
 
 
 @ensure_annotations
@@ -96,7 +92,6 @@ def save_bin(data: Any, path: Union[str, Path]):
     logger.info(f"binary file saved at: {path}")
 
 
-
 def load_bin(path: Union[str, Path]) -> Any:
     """load binary data
 
@@ -109,7 +104,6 @@ def load_bin(path: Union[str, Path]) -> Any:
     data = joblib.load(path)
     logger.info(f"binary file loaded from: {path}")
     return data
-
 
 
 @ensure_annotations

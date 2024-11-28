@@ -24,8 +24,7 @@ class PredictPipeline:
         """
         self.model = load_bin(
             Path(
-                "artifacts/ \
-                                   model_trainer/log_reg_model.joblib"
+                "artifacts/model_trainer/log_reg_model.joblib"
             )
         )
         self.preprocessor = load_bin(

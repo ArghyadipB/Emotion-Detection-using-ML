@@ -13,7 +13,8 @@ from src.ML_emotion_detection.utils.common import save_bin
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler
 from tqdm import tqdm
-from src.ML_emotion_detection.entity.config_entity import DataTransformationConfig
+from src.ML_emotion_detection.entity.config_entity import \
+    DataTransformationConfig
 import os
 tqdm.pandas()
 
@@ -22,12 +23,13 @@ class TextPreprocessor(BaseEstimator, TransformerMixin):
     """
     A custom text preprocessing transformer for text data.
 
-    This class handles text cleaning, lowercasing, stop word removal, 
+    This class handles text cleaning, lowercasing, stop word removal,
     and lemmatization.
 
     Attributes:
         stop_words (set): Set of English stop words.
-        lemmatizer (WordNetLemmatizer): Lemmatizer for reducing words to their base form.
+        lemmatizer (WordNetLemmatizer): Lemmatizer for reducing words to their
+        base form.
     """
 
     def __init__(self):
@@ -65,7 +67,8 @@ class TextPreprocessor(BaseEstimator, TransformerMixin):
 
     def _preprocess(self, text):
         """
-        Preprocesses a single text input by cleaning, tokenizing, and lemmatizing.
+        Preprocesses a single text input by cleaning, tokenizing, and
+        lemmatizing.
 
         Args:
             text (str): Input text.
@@ -81,7 +84,8 @@ class TextPreprocessor(BaseEstimator, TransformerMixin):
         text = re.sub(r'[^\w\s]', '', text)
         text = re.sub(r'\s+', ' ', text)
         tokens = word_tokenize(text)
-        tokens = [self.lemmatizer.lemmatize(word) for word in tokens if word not in self.stop_words]
+        tokens = [self.lemmatizer.lemmatize(word) for word in tokens if word
+                  not in self.stop_words]
         return ' '.join(tokens)
 
 
@@ -177,19 +181,25 @@ class POSCountFeatures(BaseEstimator, TransformerMixin):
 
 class TfidfFeature:
     """
-    A feature transformer that combines TF-IDF features and scaled numerical features.
+    A feature transformer that combines TF-IDF features and scaled numerical
+    features.
 
     Attributes:
-        preprocessor (ColumnTransformer): Transformer for text and numerical columns.
+        preprocessor (ColumnTransformer): Transformer for text and numerical
+        columns.
     """
 
     def __init__(self):
         """
-        Initializes the TfidfFeature transformer with TF-IDF and numerical scaling.
+        Initializes the TfidfFeature transformer with TF-IDF and numerical
+        scaling.
         """
         text_column = 'text'
-        numerical_columns = ['ADJ', 'ADP', 'ADV', 'AUX', 'CCONJ', 'DET', 'INTJ', 'NOUN',
-                             'NUM', 'PART', 'PRON', 'PROPN', 'PUNCT', 'SCONJ', 'SYM', 'VERB', 'X']
+        numerical_columns = [
+            'ADJ', 'ADP', 'ADV', 'AUX', 'CCONJ', 'DET', 'INTJ', 'NOUN',
+            'NUM', 'PART', 'PRON', 'PROPN', 'PUNCT',
+            'SCONJ', 'SYM', 'VERB', 'X'
+        ]
 
         self.preprocessor = ColumnTransformer(
             transformers=[
@@ -240,8 +250,8 @@ class TfidfFeature:
 
 class DataTransformation:
     """
-    A class for handling data transformation, including preprocessing, feature extraction,
-    and train-test splitting.
+    A class for handling data transformation, including preprocessing,
+    feature extraction, and train-test splitting.
 
     Attributes:
         config (DataTransformationConfig): Configuration object.
@@ -254,7 +264,8 @@ class DataTransformation:
         Initializes the DataTransformation object.
 
         Args:
-            config (DataTransformationConfig): Configuration for data transformation.
+            config (DataTransformationConfig): Configuration for data
+            transformation.
         """
         self.config = config
         self.stop_words = set(stopwords.words('english'))
@@ -265,18 +276,23 @@ class DataTransformation:
         Splits data into training and testing sets.
 
         Args:
-            test_size (float): Proportion of data to be used for testing. Defaults to 0.2.
+            test_size (float): Proportion of data to be used for testing.
+            Defaults to 0.2.
 
         Returns:
-            tuple: Training and testing data (X_train, X_test, y_train, y_test).
+            tuple: Training and testing
+            data (X_train, X_test, y_train, y_test).
         """
-        data = pd.read_parquet('E:/Projects/E2E Emotion Detection from text/Emotion-Detection-using-ML/artifacts/data_ingestion/train-00000-of-00001.parquet')
+        data = pd.read_parquet(
+            'E:/Projects/E2E Emotion Detection from text/'
+            'Emotion-Detection-using-ML/'
+            'artifacts/data_ingestion/train-00000-of-00001.parquet'
+        )
+
         logger.info("Split data into training and test sets")
-        X_train, X_test, y_train, y_test = train_test_split(data['text'],
-                                                            data['label'],
-                                                            test_size=test_size,
-                                                            stratify=data['label'],
-                                                            random_state=42)
+        X_train, X_test, y_train, y_test = train_test_split(
+            data['text'], data['label'], test_size=test_size,
+            stratify=data['label'], random_state=42)
 
         save_bin(y_train, os.path.join(self.config.root_dir, "y_train.joblib"))
         save_bin(y_test, os.path.join(self.config.root_dir, "y_test.joblib"))
@@ -285,28 +301,44 @@ class DataTransformation:
 
     def pipeline_and_transform(self, X_train, X_test):
         """
-        Creates a preprocessing pipeline, transforms the data, and saves the outputs.
+        Creates a preprocessing pipeline, transforms the data, and saves the
+        outputs.
 
         Args:
             X_train (pd.Series): Training text data.
             X_test (pd.Series): Testing text data.
 
         Returns:
-            tuple: Transformed training and testing data (X_train_processed, X_test_processed).
+            tuple: Transformed training and testing
+            data (X_train_processed, X_test_processed).
         """
         pipeline = Pipeline([
             ('text_preprocessor', TextPreprocessor()),
             ('pos_counter', POSCountFeatures()),
             ('tfidf_feature', TfidfFeature())
         ])
-        
+
         logger.info("Transforming train and test data")
         X_train_processed = pipeline.fit_transform(X_train)
         X_test_processed = pipeline.transform(X_test)
 
-        save_bin(pipeline, os.path.join(self.config.root_dir, "preprocessor.joblib"))
-        save_bin(X_train_processed, os.path.join(self.config.root_dir, "X_train.joblib"))
-        save_bin(X_test_processed, os.path.join(self.config.root_dir, "X_test.joblib"))
-        
-        logger.info(f"Training set shape after preprocessing: {X_train_processed.shape}")
-        logger.info(f"Test set shape after preprocessing: {X_test_processed.shape}")
+        save_bin(
+            pipeline,
+            os.path.join(self.config.root_dir, "preprocessor.joblib")
+        )
+        save_bin(
+            X_train_processed,
+            os.path.join(self.config.root_dir, "X_train.joblib")
+        )
+        save_bin(
+            X_test_processed,
+            os.path.join(self.config.root_dir, "X_test.joblib")
+        )
+
+        logger.info(
+            f"Training set shape after preprocessing:{X_train_processed.shape}"
+        )
+
+        logger.info(
+            f"Test set shape after preprocessing:{X_test_processed.shape}"
+        )

@@ -15,7 +15,7 @@ from src.ML_emotion_detection.pipeline.Stage_01_data_ingestion import (
     DataIngestionTrainingPipeline,
 )
 from src.ML_emotion_detection.pipeline.Stage_02_data_validation import (
-    DataValidationTrainingPipeline,
+    DataValidationTrainingPipeline
 )
 from src.ML_emotion_detection.pipeline.Stage_03_data_transformation import (
     DataTransformationTrainingPipeline,
