@@ -4,7 +4,8 @@ responsible for managing the data transformation process in the pipeline.
 """
 
 from src.ML_emotion_detection.config.configuration import ConfigurationManager
-from src.ML_emotion_detection.components.data_transformation import DataTransformation
+from src.ML_emotion_detection.components.data_transformation import \
+    DataTransformation
 from pathlib import Path
 
 
@@ -50,7 +51,8 @@ class DataTransformationTrainingPipeline:
             if status == "True":
                 # Retrieve configuration for data transformation
                 config = ConfigurationManager()
-                data_transformation_config = config.get_data_transformation_config()
+                data_transformation_config = config.\
+                    get_data_transformation_config()
 
                 # Initialize the DataTransformation class with the
                 # retrieved config

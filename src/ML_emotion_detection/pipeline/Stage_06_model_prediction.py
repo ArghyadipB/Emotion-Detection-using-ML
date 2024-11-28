@@ -62,7 +62,8 @@ class PredictPipeline:
             prediction = self.model.predict(processed_data)
 
             # Get the predicted probability
-            pred_prob = "%.5f" % np.max(self.model.predict_proba(processed_data))
+            pred_prob = "%.5f" % np.max(
+                self.model.predict_proba(processed_data))
 
             # Map the predicted label to a human-readable emotion
             label_map = {

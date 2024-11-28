@@ -4,7 +4,8 @@ responsible for performing model evaluation and logging results into MLflow.
 """
 
 from src.ML_emotion_detection.config.configuration import ConfigurationManager
-from src.ML_emotion_detection.components.model_evaluation import ModelEvaluation
+from src.ML_emotion_detection.components.model_evaluation import \
+    ModelEvaluation
 
 
 STAGE_NAME = "Model evaluation stage"
