@@ -168,4 +168,3 @@ artifacts/data_transformation/y_train.joblib
 artifacts/data_transformation/y_test.joblib
 artifacts/data_validation
 artifacts/model_evaluation
-artifacts/model_trainer
