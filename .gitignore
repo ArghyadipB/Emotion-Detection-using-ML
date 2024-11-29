@@ -162,4 +162,10 @@ cython_debug/
 #.idea/
 
 emo_det_ml/*
-artifacts/*
+artifacts/data_ingestion
+artifacts/data_transformation/X_train.joblib
+artifacts/data_transformation/y_train.joblib
+artifacts/data_transformation/y_test.joblib
+artifacts/data_validation
+artifacts/model_evaluation
+artifacts/model_trainer
