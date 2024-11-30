@@ -18,11 +18,17 @@ class PredictPipeline:
 
     def __init__(self):
         """
-        Initialize the PredictPipeline class.
+        Initialize the PredictPipeline class with importing
+        and downloading necessary downloads.
 
         Loads the pre-trained model and preprocessor from the specified
         file paths.
         """
+        import nltk
+        nltk.download('stopwords')
+        nltk.download('punkt_tab')
+        nltk.download('wordnet')
+        nltk.download('averaged_perceptron_tagger_eng')
         self.model = load_bin(
             Path(
                 "artifacts/model_trainer/log_reg_model.joblib"
